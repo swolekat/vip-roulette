@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8">
+		<title>VIP ROULETTE</title>
+		<style>
+			*, *:before, *:after {
+					box-sizing: border-box;
+					margin: 0;
+					padding: 0;
+			}
+
+			html,
+			body {
+					background: #000;
+					color: #fff;
+					height: 100%;
+			}
+
+			.roulette {
+				height: 100%;
+					width: 100%;
+				overflow: hidden;
+					max-height: 100%;
+					position: relative;
+					display: flex;
+					justify-content: center;
+			}
+
+			.number {
+					font-size: 400px;
+					position: relative;
+		  		background: #444;
+					margin-right: 1px;
+			}
+
+			.number:after {
+					content: '';
+					position: absolute;
+					bottom: 0;
+					left: 0;
+					right: 0;
+					border-bottom: 1px solid #000;
+			}
+
+			.number-bar {
+					position: absolute;
+					top: 50%;
+					left: 0;
+					right: 0;
+					border: 10px solid #f00;
+					transform: translateY(-50%);
+					margin-top: 29px;
+			}
+
+			.number-bar::before {
+					content: '1';
+					font-size: 400px;
+					color: transparent;
+			}
+			.spinner {
+					transition: 1s linear all;
+					transform: translateY(0);
+					margin-top: 0;
+			}
+		</style>
+	</head>
+	<body>
+		<div class="roulette">
+			<div class="spinner" id="hundreds-place">
+			</div>
+			<div class="spinner" id="tens-place">
+			</div>
+			<div class="spinner" id="ones-place">
+			</div>
+			<div class="number-bar"></div>
+		</div>
+		<script>
+			const numberOfNumbers = 100;
+			const maxIndex = numberOfNumbers - 20;
+			const numberHeight = document.getElementsByClassName('number-bar')[0].clientHeight;
+			const minTime = 10;
+			const timeAddition = 5;
+
+			const playAudio = () => {
+				const audio = new Audio('./music.mp3');
+				audio.addEventListener('canplay', () => audio.play())
+			};
+
+			const fillSpinner = (spinnerToFill) => {
+				const startingNumber = Math.round(Math.random()* 8);
+				for(let x = 0; x < numberOfNumbers; x++){
+					const element = document.createElement('div');
+					element.className = 'number';
+					element.innerText = `${(x + startingNumber) % 10}`;
+					spinnerToFill.append(element);
+				}
+				return startingNumber;
+			};
+
+			const rollSpinner = (spinner, numberToShow) => {
+				const startingNumber = fillSpinner(spinner);
+				const indexToShow = (numberToShow - startingNumber) + maxIndex - 1;
+				const time = minTime + (Math.random() * timeAddition);
+				spinner.style.transition = `${time}s ease all`;
+				spinner.style.transform = `translateY(-${indexToShow * numberHeight}px)`;
+			};
+
+			const roll = () => {
+				playAudio();
+				const onesPlace = document.getElementById("ones-place");
+				const tensPlace = document.getElementById("tens-place");
+				const hundredsPlace = document.getElementById("hundreds-place");
+				const numberToShow = Math.round(Math.random()* 100);
+				const ones = numberToShow % 10;
+				const tens = (numberToShow % 100 - ones) / 10;
+				const hundreds = numberToShow === 100 ? 1 : 0;
+				rollSpinner(onesPlace, ones);
+				rollSpinner(tensPlace, tens);
+				rollSpinner(hundredsPlace, hundreds);
+			};
+
+			let beenClicked = false;
+			const clickHandler = () => {
+				if(beenClicked){
+					return;
+				}
+				beenClicked = true;
+				roll();
+			};
+
+			document.addEventListener('click', clickHandler);
+		</script>
+
+	</body>
+</html>
