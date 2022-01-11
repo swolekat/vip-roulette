@@ -58,20 +58,35 @@
 					font-size: 400px;
 					color: transparent;
 			}
+			.spinner-wrapper {
+				position: relative;
+				margin-right: 1px;
+			}
+			.spinner-wrapper::before {
+				content: '1';
+				font-size: 400px;
+				color: transparent;
+			}
 			.spinner {
-					transition: 1s linear all;
-					transform: translateY(0);
-					margin-top: 0;
+				position: absolute;
+				top: 0;
+				left: 0;
 			}
 		</style>
 	</head>
 	<body>
 		<div class="roulette">
-			<div class="spinner" id="hundreds-place">
+			<div class="spinner-wrapper">
+				<div class="spinner" id="hundreds-place">
+				</div>
 			</div>
-			<div class="spinner" id="tens-place">
+			<div class="spinner-wrapper">
+				<div class="spinner" id="tens-place">
+				</div>
 			</div>
-			<div class="spinner" id="ones-place">
+			<div class="spinner-wrapper">
+				<div class="spinner" id="ones-place">
+				</div>
 			</div>
 			<div class="number-bar"></div>
 		</div>
@@ -102,8 +117,8 @@
 				const startingNumber = fillSpinner(spinner);
 				const indexToShow = (numberToShow - startingNumber) + maxIndex - 1;
 				const time = minTime + (Math.random() * timeAddition);
-				spinner.style.transition = `${time}s ease all`;
-				spinner.style.transform = `translateY(-${indexToShow * numberHeight}px)`;
+				spinner.style.transition = `${time}s top`;
+				spinner.style.top = `-${indexToShow * numberHeight - 5}px`;
 			};
 
 			const roll = () => {
