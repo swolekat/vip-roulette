@@ -126,7 +126,7 @@
 				const onesPlace = document.getElementById("ones-place");
 				const tensPlace = document.getElementById("tens-place");
 				const hundredsPlace = document.getElementById("hundreds-place");
-				const numberToShow = Math.round(Math.random()* 100);
+				const numberToShow = Math.floor((Math.random() * 99) + 1);
 				const ones = numberToShow % 10;
 				const tens = (numberToShow % 100 - ones) / 10;
 				const hundreds = numberToShow === 100 ? 1 : 0;
