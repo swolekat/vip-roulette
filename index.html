@@ -75,6 +75,7 @@
 		</style>
 	</head>
 	<body>
+		<audio src="./music.mp3" id="audio"></audio>
 		<div class="roulette">
 			<div class="spinner-wrapper">
 				<div class="spinner" id="hundreds-place">
@@ -98,8 +99,8 @@
 			const timeAddition = 5;
 
 			const playAudio = () => {
-				const audio = new Audio('./music.mp3');
-				audio.addEventListener('canplay', () => audio.play())
+				const audio = document.getElementById('audio');
+				audio.play();
 			};
 
 			const fillSpinner = (spinnerToFill) => {
